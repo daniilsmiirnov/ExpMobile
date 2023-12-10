@@ -41,10 +41,15 @@ const MainScreen: React.FC = () => {
   }, [searchQuery, objects]);
 
   const renderObjectCard = ({ item }: { item: ObjectInt }) => {
+    const handleDetailsPress = (object: ObjectInt) => {
+      console.log('Details Pressed:', object.Name_Obj);
+      // Действия при нажатии на кнопку "Подробнее" в карточке
+    };
+
     return (
       <ObjectCard
         object={item}
-        onPress={() => handleObjectPress(item)}
+        onDetailsPress={() => handleDetailsPress(item)}
       />
     );
   };
@@ -83,7 +88,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     paddingHorizontal: 10,
     marginBottom: 10,
-    marginTop:10,
+    marginTop: 10,
   },
 });
 

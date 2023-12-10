@@ -2,30 +2,32 @@ import React from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 
 export interface ObjectInt {
-    ID_Object: number;
-    Name_Obj: string;
-    Region: string;
-    Year: number;
-    Opener: string;
-    Status: string;
-    Image_Url: string;
-  }
+  ID_Object: number;
+  Name_Obj: string;
+  Region: string;
+  Year: number;
+  Opener: string;
+  Status: string;
+  Image_Url: string;
+}
 interface ObjectCardProps {
-  object: ObjectInt; // Принимаем объект типа ObjectInt
-  onPress: () => void; // Функция, которая будет вызвана при нажатии на карточку
+  object: ObjectInt;
+  onDetailsPress: () => void; 
 }
 
-const ObjectCard: React.FC<ObjectCardProps> = ({ object, onPress }) => {
-    console.log('Image URL:', object.Image_Url);
+const ObjectCard: React.FC<ObjectCardProps> = ({ object, onDetailsPress }) => {
   return (
-    <TouchableOpacity style={styles.card} onPress={onPress}>
+    <View style={styles.card}>
       <Image source={{ uri: object.Image_Url }} style={styles.image} />
-      <View style={styles.details}> 
+      <View style={styles.details}>
         <Text style={styles.title}>{object.Name_Obj}</Text>
         <Text style={styles.region}>{object.Region}</Text>
         <Text style={styles.year}>{object.Year}</Text>
       </View>
-    </TouchableOpacity>
+      <TouchableOpacity style={styles.detailsButton} onPress={onDetailsPress}>
+        <Text style={styles.buttonText}>Подробнее</Text>
+      </TouchableOpacity>
+    </View>
   );
 };
 
@@ -59,6 +61,15 @@ const styles = StyleSheet.create({
   year: {
     fontSize: 14,
     color: 'gray',
+  },
+  detailsButton: {
+    backgroundColor: '#171717',
+    padding: 8,
+    borderRadius: 5,
+  },
+  buttonText: {
+    color: 'white',
+    fontWeight: 'bold',
   },
 });
 
