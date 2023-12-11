@@ -24,7 +24,8 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import MainScreen from './components/MainScreen';
 import ObjectDetailsScreen from './components/ObjectDetailsScreen';
-
+import { LogBox } from 'react-native';
+LogBox.ignoreAllLogs();
 const Stack = createStackNavigator();
 
 function Navigation() {

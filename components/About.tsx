@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Image } from 'react-native';
 import { RouteProp, useRoute } from '@react-navigation/native';
 import { ObjectInt } from './ObjectCard';
 import NavigationBar from './NavBar';
@@ -16,11 +16,13 @@ const ObjectDetailsScreen: React.FC = () => {
     <View style={styles.container}>
       <NavigationBar />
       <View style={styles.content}>
-        <Text style={styles.title}>{object.Name_Obj}</Text>
-        <Text style={styles.info}>Region: {object.Region}</Text>
-        <Text style={styles.info}>Opener: {object.Opener}</Text>
-        <Text style={styles.info}>Year: {object.Year}</Text>
-        {/* Дополнительная информация о объекте */}
+      <Image source={{ uri: object.Image_Url }} />
+        <Text style={styles.title}>Название:{object.Name_Obj}</Text>
+        <Text style={styles.info}>Регион: {object.Region}</Text>
+        <Text style={styles.info}>Открыватель: {object.Opener}</Text>
+        <Text style={styles.info}>Год: {object.Year}</Text>
+
+
       </View>
     </View>
   );

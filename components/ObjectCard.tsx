@@ -23,10 +23,9 @@ const ObjectCard: React.FC<ObjectCardProps> = ({ object, onDetailsPress }) => {
         <Text style={styles.title}>{object.Name_Obj}</Text>
         <Text style={styles.region}>{object.Region}</Text>
         <Text style={styles.year}>{object.Year}</Text>
+
+ 
       </View>
-      <TouchableOpacity style={styles.detailsButton} onPress={onDetailsPress}>
-        <Text style={styles.buttonText}>Подробнее</Text>
-      </TouchableOpacity>
     </View>
   );
 };
