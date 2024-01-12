@@ -3,8 +3,7 @@ import { View, FlatList, TextInput, StyleSheet } from 'react-native';
 import axios from 'axios';
 import ObjectCard, { ObjectInt } from './ObjectCard';
 import NavigationBar from './NavBar';
-import NetworkInfo from 'react-native-network-info';
-import { TouchableOpacity, Text } from 'react-native';
+import { TouchableOpacity } from 'react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
 
 type RootStackParamList = {
@@ -19,74 +18,47 @@ interface MainScreenProps {
 }
 
 const MainScreen: React.FC<MainScreenProps> = ({ navigation }) => {
-  const [objects, setObjects] = useState<ObjectInt[]>([]);
+  const [originalObjects, setOriginalObjects] = useState<ObjectInt[]>([]);
   const [filteredObjects, setFilteredObjects] = useState<ObjectInt[]>([]);
   const [searchQuery, setSearchQuery] = useState<string>('');
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get<ObjectInt[]>('http://172.20.10.2:8000/object/');
-        if (response.status === 200) {
-          setObjects(response.data);
-          setFilteredObjects(response.data);
-        } else {
-          throw new Error('Failed to get data from the server');
-        }
-      } catch (error) {
-        console.error(error);
+  const fetchData = async () => {
+    try {
+      const response = await axios.get<ObjectInt[]>('http://172.20.10.2:8000/objectde/', {
+        params: {
+          name: searchQuery,
+        },
+      });
+      if (response.status === 200) {
+        setOriginalObjects(response.data);
+        setFilteredObjects(response.data);
+      } else {
+        throw new Error('Failed to get data from the server');
       }
-    };
-
-    fetchData();
-  }, []);
-
-  useEffect(() => {
-    if (searchQuery === '') {
-      setFilteredObjects(objects);
-    } else {
-      const filtered = objects.filter(
-        (object) =>
-          object.Name_Obj.toLowerCase().includes(searchQuery.toLowerCase())
-      );
-      setFilteredObjects(filtered);
+    } catch (error) {
+      console.error(error);
     }
-  }, [searchQuery, objects]);
+  };
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get<ObjectInt[]>('http://172.20.10.2:8000/object/');
-        if (response.status === 200) {
-          setObjects(response.data);
-          setFilteredObjects(response.data);
-        } else {
-          throw new Error('Failed to get data from the server');
-        }
-      } catch (error) {
-        console.error(error);
-      }
-    };
+    fetchData();
+  }, [searchQuery]);
 
-    const unsubscribe = navigation.addListener('focus', () => {
-      fetchData();
-    });
-
-    return unsubscribe;
-  }, [navigation]);
+  // useEffect(() => {
+  //   const unsubscribe = navigation.addListener('focus', fetchData);
+  //   return unsubscribe;
+  // }, [navigation]);
 
   const handleDetailsPress = (object: ObjectInt) => {
     console.log('Details Pressed:', object.Name_Obj);
     navigation.navigate('ObjectDetailsScreen', { object });
   };
 
-  const renderObjectCard = ({ item }: { item: ObjectInt }) => {
-    return (
-      <TouchableOpacity onPress={() => handleDetailsPress(item)}>
-        <ObjectCard object={item} onDetailsPress={() => {}} />
-      </TouchableOpacity>
-    );
-  };
+  const renderObjectCard = ({ item }: { item: ObjectInt }) => (
+    <TouchableOpacity onPress={() => handleDetailsPress(item)}>
+      <ObjectCard object={item} onDetailsPress={() => {}} />
+    </TouchableOpacity>
+  );
 
   return (
     <View style={styles.container}>
