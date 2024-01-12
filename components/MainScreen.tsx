@@ -24,7 +24,7 @@ const MainScreen: React.FC<MainScreenProps> = ({ navigation }) => {
 
   const fetchData = async () => {
     try {
-      const response = await axios.get<ObjectInt[]>('http://172.20.10.2:8000/objectde/', {
+      const response = await axios.get<ObjectInt[]>('http://172.20.10.2:8000/object/', {
         params: {
           name: searchQuery,
         },
